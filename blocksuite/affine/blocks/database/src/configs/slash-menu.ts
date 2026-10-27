@@ -6,6 +6,7 @@ import { viewPresets } from '@blocksuite/data-view/view-presets';
 import {
   DatabaseKanbanViewIcon,
   DatabaseTableViewIcon,
+  DateTimeIcon,
   TodayIcon,
 } from '@blocksuite/icons/lit';
 
@@ -62,6 +63,35 @@ export const databaseSlashMenuConfig: SlashMenuConfig = {
           .pipe(getSelectedModelsCommand)
           .pipe(insertDatabaseBlockCommand, {
             viewType: viewPresets.calendarViewMeta.type,
+            place: 'after',
+            removeEmptyLine: true,
+          })
+          .pipe(({ insertedDatabaseBlockId }) => {
+            if (insertedDatabaseBlockId) {
+              const telemetry = std.getOptional(TelemetryProvider);
+              telemetry?.track('BlockCreated', {
+                blockType: 'affine:database',
+              });
+            }
+          })
+          .run();
+      },
+    },
+
+    {
+      name: 'Timeline View',
+      description: 'Plan items over time on a timeline.',
+      searchAlias: ['database', 'timeline', 'gantt', 'roadmap'],
+      icon: DateTimeIcon(),
+      group: '7_Database@1',
+      when: ({ model }) =>
+        !isInsideBlockByFlavour(model.store, model, 'affine:edgeless-text'),
+      action: ({ std }) => {
+        std.command
+          .chain()
+          .pipe(getSelectedModelsCommand)
+          .pipe(insertDatabaseBlockCommand, {
+            viewType: viewPresets.timelineViewMeta.type,
             place: 'after',
             removeEmptyLine: true,
           })
