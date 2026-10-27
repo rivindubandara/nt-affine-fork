@@ -4,6 +4,8 @@ export enum IconType {
   Emoji = 'emoji',
   AffineIcon = 'affine-icon',
   Blob = 'blob',
+  /** An image stored as a workspace blob (or any URL). */
+  Image = 'image',
 }
 
 export type IconData =
@@ -19,6 +21,10 @@ export type IconData =
   | {
       type: IconType.Blob;
       blob: Blob;
+    }
+  | {
+      type: IconType.Image;
+      url: string;
     };
 
 export interface IconPickerService {

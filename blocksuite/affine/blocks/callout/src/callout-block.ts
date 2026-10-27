@@ -57,6 +57,13 @@ const getIcon = (icon?: IconData) => {
   if (icon.type === IconType.Emoji) {
     return icon.unicode;
   }
+  if (icon.type === IconType.Image) {
+    return html`<img
+      src=${icon.url}
+      alt=""
+      style="width: 1em; height: 1em; object-fit: contain; border-radius: 3px;"
+    />`;
+  }
   if (icon.type === IconType.AffineIcon) {
     return (
       icons as Record<string, (props: { style: string }) => TemplateResult>
