@@ -23,6 +23,22 @@ export const IconRenderer = ({
       <AffineIconRenderer name={data.name} color={data.color} {...props} />
     );
   }
+  if (data.type === IconType.Image && data.url) {
+    return (
+      <img
+        src={data.url}
+        alt=""
+        draggable={false}
+        style={{
+          width: '1em',
+          height: '1em',
+          objectFit: 'contain',
+          borderRadius: 3,
+          verticalAlign: 'middle',
+        }}
+      />
+    );
+  }
   if (data.type === IconType.Blob) {
     // Not supported yet
     return null;

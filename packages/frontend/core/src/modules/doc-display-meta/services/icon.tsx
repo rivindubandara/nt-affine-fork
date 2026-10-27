@@ -22,6 +22,18 @@ export const getDocIconComponentLit = (icon: IconData) => {
         ${litIcons[`${icon.name}Icon` as keyof typeof litIcons]()}
       </div>`;
     }
+    if (icon.type === IconType.Image) {
+      return html`<div
+        class="icon"
+        style="display: flex; align-items: center; justify-content: center;"
+      >
+        <img
+          src=${icon.url}
+          alt=""
+          style="width: 1em; height: 1em; object-fit: contain; border-radius: 3px;"
+        />
+      </div>`;
+    }
     return null;
   };
 };
