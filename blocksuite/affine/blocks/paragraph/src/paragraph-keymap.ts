@@ -1,6 +1,7 @@
 import { textKeymap } from '@blocksuite/affine-inline-preset';
 import {
   CalloutBlockModel,
+  ColumnBlockModel,
   ParagraphBlockModel,
   ParagraphBlockSchema,
 } from '@blocksuite/affine-model';
@@ -56,6 +57,15 @@ export const ParagraphKeymapExtension = KeymapExtension(
           // Try to switch to normal text
           store.captureSync();
           store.updateBlock(model, { type: 'text' });
+          return true;
+        }
+
+        // The first block of a column has nothing of its own to merge into;
+        // keep it in place rather than joining it onto the previous column.
+        if (
+          matchModels(model.parent, [ColumnBlockModel]) &&
+          model.parent.children[0] === model
+        ) {
           return true;
         }
 

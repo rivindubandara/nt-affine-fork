@@ -7,6 +7,7 @@ import { BlockViewExtension, FlavourExtension } from '@blocksuite/std';
 import { literal } from 'lit/static-html.js';
 
 import { CalloutKeymapExtension } from './callout-keymap';
+import { columnsSlashMenuConfig } from './columns/slash-menu';
 import { calloutSlashMenuConfig } from './configs/slash-menu';
 import { createBuiltinToolbarConfigExtension } from './configs/toolbar';
 import { effects } from './effects';
@@ -27,6 +28,11 @@ export class CalloutViewExtension extends ViewExtensionProvider {
       CalloutKeymapExtension,
       SlashMenuConfigExtension('affine:callout', calloutSlashMenuConfig),
       ...createBuiltinToolbarConfigExtension('affine:callout'),
+      FlavourExtension('affine:columns'),
+      BlockViewExtension('affine:columns', literal`affine-columns`),
+      FlavourExtension('affine:column'),
+      BlockViewExtension('affine:column', literal`affine-column`),
+      SlashMenuConfigExtension('affine:columns', columnsSlashMenuConfig),
     ]);
   }
 }
