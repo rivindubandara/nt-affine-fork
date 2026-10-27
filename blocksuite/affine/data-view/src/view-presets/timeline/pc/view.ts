@@ -83,6 +83,17 @@ type Lane =
   | { type: 'row'; item: TimelineItem; groupKey?: string }
   | { type: 'add'; groupKey?: string };
 
+const laneKey = (lane: Lane) => {
+  switch (lane.type) {
+    case 'group':
+      return `group:${lane.key}`;
+    case 'add':
+      return `add:${lane.groupKey ?? ''}`;
+    case 'row':
+      return `row:${lane.groupKey ?? ''}:${lane.item.rowId}`;
+  }
+};
+
 export class TimelineViewUILogic extends DataViewUILogicBase<TimelineSingleView> {
   private ui?: TimelineViewUI;
 
@@ -944,14 +955,7 @@ export class TimelineViewUI extends DataViewUIBase<TimelineViewUILogic> {
         style="width:${this.tableWidth + width}px;--timeline-row-height:${ROW_HEIGHT}px"
       >
         ${this.renderHeader(range, width)} ${this.renderGrid(range, height)}
-        ${repeat(
-          lanes,
-          lane =>
-            lane.type === 'row'
-              ? `row:${lane.groupKey ?? ''}:${lane.item.rowId}`
-              : `${lane.type}:${lane.groupKey ?? (lane.type === 'group' ? lane.key : '')}`,
-          lane => this.renderLane(lane, range, width)
-        )}
+        ${repeat(lanes, laneKey, lane => this.renderLane(lane, range, width))}
       </div>
     </div>`;
   }
