@@ -945,8 +945,12 @@ export class TimelineViewUI extends DataViewUIBase<TimelineViewUILogic> {
     const width = getTimelineWidth(range, zoom);
     const lanes = this.logic.lanes();
     const height = lanes.length * ROW_HEIGHT;
+    // Like the table view, use the editor's side margins in page mode so the
+    // timeline spans the full page width instead of the text column.
+    const vPadding = this.logic.root.config.virtualPadding$.value;
     return html`<div
       class="timeline-scroll"
+      style="margin-left:-${vPadding}px;margin-right:-${vPadding}px;width:calc(100% + ${2 * vPadding}px)"
       @wheel=${this.onWheel}
       ${refTo(el => (this.scroller = el))}
     >
