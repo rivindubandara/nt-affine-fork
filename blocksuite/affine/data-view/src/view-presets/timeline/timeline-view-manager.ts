@@ -64,7 +64,7 @@ export class TimelineSingleView extends TableSingleView {
     return this.timelineData$.value?.mode ?? 'timeline';
   }
 
-  private settings$ = computed(() => {
+  private readonly settings$ = computed(() => {
     return (
       this.timelineData$.value?.timeline ?? {
         zoom: 'month' as TimelineZoom,

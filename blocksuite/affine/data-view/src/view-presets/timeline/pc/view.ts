@@ -38,9 +38,9 @@ import {
   getTimelineWidth,
   isWeekend,
   offsetFromDay,
+  timelineDayWidth,
   type TimelineRange,
   type TimelineSpan,
-  timelineDayWidth,
   type TimelineZoom,
   timelineZooms,
   toDayIndex,
@@ -541,7 +541,7 @@ export class TimelineViewUI extends DataViewUIBase<TimelineViewUILogic> {
 
   private scroller?: HTMLElement;
 
-  private tableWidthPreview$ = signal<number | undefined>(undefined);
+  private readonly tableWidthPreview$ = signal<number | undefined>(undefined);
 
   private range?: TimelineRange;
 
@@ -602,11 +602,14 @@ export class TimelineViewUI extends DataViewUIBase<TimelineViewUILogic> {
     }
   }
 
-  private onWheel = (event: WheelEvent) => {
+  private readonly onWheel = (event: WheelEvent) => {
     // Keep horizontal scrolling inside the timeline instead of the page.
     const scroller = event.currentTarget as HTMLElement;
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-      if (scroller.scrollWidth > scroller.clientWidth) event.stopPropagation();
+    if (
+      Math.abs(event.deltaX) > Math.abs(event.deltaY) &&
+      scroller.scrollWidth > scroller.clientWidth
+    ) {
+      event.stopPropagation();
     }
   };
 
