@@ -11,7 +11,7 @@ import { css, html, nothing } from 'lit';
 /** Smallest share of a pair of columns that a drag can shrink one to. */
 const MIN_PAIR_SHARE = 0.1;
 
-const topContenteditable = (block: BlockComponent) => {
+const topContenteditable = (block: BlockComponent): BlockComponent | null => {
   if (block.std.get(DocModeProvider).getEditorMode() === 'edgeless') {
     return block.closest<BlockComponent>(EDGELESS_TOP_CONTENTEDITABLE_SELECTOR);
   }
@@ -45,7 +45,7 @@ export class ColumnsBlockComponent extends BlockComponent<ColumnsBlockModel> {
     }
   `;
 
-  override get topContenteditableElement() {
+  override get topContenteditableElement(): BlockComponent | null {
     return topContenteditable(this);
   }
 
@@ -97,7 +97,7 @@ export class ColumnBlockComponent extends BlockComponent<ColumnBlockModel> {
     }
   `;
 
-  override get topContenteditableElement() {
+  override get topContenteditableElement(): BlockComponent | null {
     return topContenteditable(this);
   }
 
